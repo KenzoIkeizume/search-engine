@@ -2,7 +2,7 @@
 
 Description                   | Command
 ----------------------------- | -----------------------------
-Test ElasticSearch is up      | url http://localhost:9200
+Test ElasticSearch is up      | curl http://localhost:9200
 
 ## Troubleshooting
 

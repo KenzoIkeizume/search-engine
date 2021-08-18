@@ -19,6 +19,17 @@ services:
       - 9200:9200
     networks:
       - elastic
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.0
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://es01:9200"]'
+    ports:
+      - "5601:5601"
+    depends_on:
+      - es01
+    networks:
+      - elastic
 
 volumes:
   data01:
