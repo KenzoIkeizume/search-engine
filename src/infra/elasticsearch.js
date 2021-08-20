@@ -21,7 +21,12 @@ export const search = async ({ indexes, query }) => {
         query_string: {
           query: queryString.length ? queryString.join(' AND ') : '*'
         }
-      }
+      },
+      indices_boost: [
+        { user_priority: 3.0 },
+        { user_low_priority: 2.0 },
+        { user: 1.0 }
+      ]
     }
   })
 }
