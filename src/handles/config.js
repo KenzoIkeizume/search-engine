@@ -8,6 +8,6 @@ export const uploudDatabase = async (req, res) => {
     res.status(200).json(response(200, { data }))
   } catch (err) {
     console.error(err)
-    res.status(400).json(response(400, [{ message: 'config error' }]))
+    res.status(500).json(response(500, [{ message: 'config error' }]))
   }
 }

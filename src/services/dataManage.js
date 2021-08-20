@@ -1,5 +1,9 @@
 import { readCsv, readText } from '../helpers/files'
-import { bulk } from '../infra/elasticsearch'
+import { bulk, search } from '../infra/elasticsearch'
+
+const indexUser = 'user'
+const indexPriorityUser = 'user_priority'
+const indexLowPriorityUser = 'user_low_priority'
 
 export const bulkData = async () => {
   const csvSource = './data/database.csv'
@@ -24,13 +28,18 @@ export const bulkData = async () => {
     }
   })
 
-  const indexUser = 'user'
-  const indexPriorityUser = 'user_priority'
-  const indexLowPriorityUser = 'user_low_priority'
-
-  const bulkUsers = await bulk(indexUser, userList)
-  const bulkPriorityUsers = await bulk(indexPriorityUser, userPriorityList)
-  const bulkLowPriorityUsers = await bulk(indexLowPriorityUser, userLowPriorityList)
+  const bulkUsers = await bulk({ index: indexUser, data: userList })
+  const bulkPriorityUsers = await bulk({ index: indexPriorityUser, data: userPriorityList })
+  const bulkLowPriorityUsers = await bulk({ index: indexLowPriorityUser, data: userLowPriorityList })
 
   return { bulkUsers, bulkPriorityUsers, bulkLowPriorityUsers }
+}
+
+export const searchData = async (query) => {
+  const response = await search({ indexes: [indexUser, indexPriorityUser, indexLowPriorityUser], query })
+
+  const { hits } = response.body.hits
+  const hitsSource = hits.map((value) => value._source)
+
+  return hitsSource
 }
