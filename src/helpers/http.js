@@ -3,7 +3,7 @@
  * @description Normalize response with pattern other API's
  */
 
-export const response = (status, params) => {
+export const response = (status, params, pagination = {}) => {
   if (status >= 400) {
     return {
       statusCode: status,
@@ -13,7 +13,8 @@ export const response = (status, params) => {
     return {
       statusCode: status,
       errors: [],
-      data: params
+      data: params,
+      ...pagination
     }
   }
 }

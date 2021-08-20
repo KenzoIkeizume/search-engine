@@ -35,8 +35,8 @@ export const bulkData = async () => {
   return { bulkUsers, bulkPriorityUsers, bulkLowPriorityUsers }
 }
 
-export const searchData = async (query) => {
-  const response = await search({ indexes: [indexUser, indexPriorityUser, indexLowPriorityUser], query })
+export const searchData = async (query, pagination) => {
+  const response = await search({ indexes: [indexUser, indexPriorityUser, indexLowPriorityUser], query, pagination })
 
   const { hits } = response.body.hits
   const hitsSource = hits.map((value) => value._source)

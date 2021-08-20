@@ -11,7 +11,7 @@ export const bulk = async ({ index, data }) => {
   })
 }
 
-export const search = async ({ indexes, query }) => {
+export const search = async ({ indexes, query, pagination }) => {
   const queryString = Object.entries(query).map((value) => value[0] + ':' + value[1])
 
   return client.search({
@@ -27,6 +27,7 @@ export const search = async ({ indexes, query }) => {
         { user_low_priority: 2.0 },
         { user: 1.0 }
       ]
-    }
+    },
+    ...pagination
   })
 }
