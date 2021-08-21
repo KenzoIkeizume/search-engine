@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 
-import { response } from '../helpers/http'
+import { response } from '../helpers/http.js'
 
 dotenv.config()
 

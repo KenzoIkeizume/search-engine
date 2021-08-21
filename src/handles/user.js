@@ -1,6 +1,5 @@
-import { response } from '../helpers/http'
-
-import { searchData } from '../services/dataManage'
+import { response } from '../helpers/http.js'
+import { searchData } from '../services/dataManage.js'
 
 export const list = async (req, res) => {
   try {

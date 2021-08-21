@@ -2,8 +2,8 @@ import Express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
-import routes from './src/routes'
-import config from './config/config'
+import routes from './src/routes/index.js'
+import config from './config/config.js'
 
 dotenv.config()
 const port = process.env.PORT

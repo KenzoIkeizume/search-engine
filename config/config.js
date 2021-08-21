@@ -1,4 +1,4 @@
-module.exports = {
+const configuration = {
   cors: {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -6,3 +6,5 @@ module.exports = {
     optionsSuccessStatus: 204
   }
 }
+
+export default configuration

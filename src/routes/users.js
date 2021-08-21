@@ -1,8 +1,8 @@
 import express from 'express'
 
-import * as user from '../handles/user'
+import * as user from '../handles/user.js'
 
-import { paginationInterceptor } from '../middlewares/pagination'
+import { paginationInterceptor } from '../middlewares/pagination.js'
 
 const router = express.Router()
 

@@ -1,6 +1,7 @@
 version: '3.8'
+
 services:
-  es01:
+  search-engine-es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
     container_name: es01
     environment:
@@ -18,22 +19,39 @@ services:
     ports:
       - 9200:9200
     networks:
-      - elastic
+      - search-engine-network
   
-  kibana:
+  search-engine-kibana:
     image: docker.elastic.co/kibana/kibana:7.14.0
     environment:
-      ELASTICSEARCH_HOSTS: '["http://es01:9200"]'
+      ELASTICSEARCH_HOSTS: '["http://search-engine-es01:9200"]'
     ports:
       - "5601:5601"
     depends_on:
-      - es01
+      - search-engine-es01
     networks:
-      - elastic
+      - search-engine-network
+
+  search-engine-app:
+    cpus: 1
+    mem_limit: 1000m
+    container_name: search-engine-app
+    networks:
+      - search-engine-network
+    build:
+      dockerfile: ./.infra/Dockerfile
+      context: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/src
+    depends_on:
+      - search-engine-es01
+      - search-engine-kibana
 
 volumes:
   data01:
 
 networks:
-  elastic:
+  search-engine-network:
     driver: bridge

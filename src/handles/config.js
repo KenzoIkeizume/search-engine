@@ -1,5 +1,5 @@
-import { response } from '../helpers/http'
-import { bulkData } from '../services/dataManage'
+import { response } from '../helpers/http.js'
+import { bulkData } from '../services/dataManage.js'
 
 export const uploudDatabase = async (req, res) => {
   try {

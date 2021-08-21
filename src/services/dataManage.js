@@ -1,5 +1,5 @@
-import { readCsv, readText } from '../helpers/files'
-import { bulk, search } from '../infra/elasticsearch'
+import { readCsv, readText } from '../helpers/files.js'
+import { bulk, search } from '../infra/elasticsearch.js'
 
 const indexUser = 'user'
 const indexPriorityUser = 'user_priority'

@@ -1,4 +1,4 @@
-import client from '../../database'
+import client from '../../database/index.js'
 
 export const bulk = async ({ index, data }) => {
   return client.helpers.bulk({
