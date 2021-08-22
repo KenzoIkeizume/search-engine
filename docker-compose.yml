@@ -43,8 +43,6 @@ services:
       context: .
     ports:
       - 3000:3000
-    volumes:
-      - .:/src
     depends_on:
       - search-engine-es01
       - search-engine-kibana
