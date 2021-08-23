@@ -1,7 +1,13 @@
-import { searchData } from '../../../src/services/dataManage.js'
+import { bulkData, searchData } from '../../../src/services/dataManage.js'
 import * as elasticsearch from '../../../src/infra/elasticsearch.js'
+import * as files from '../../../src/helpers/files.js'
 
 describe('data manage', () => {
+  afterAll(() => {
+    jest.resetAllMocks()
+    jest.clearAllMocks()
+  })
+
   describe('search data', () => {
     test('expect to return the list of searchs', async () => {
       elasticsearch.search = jest.fn().mockReturnValue({
@@ -147,6 +153,41 @@ describe('data manage', () => {
       const data = await searchData(query, pagination)
       
       expect(data).toEqual([])
+    })
+  })
+
+  describe('bulk data', () => {
+    test('expect to bulk all data', async () => {
+      const data = [
+        {
+          id: 'cd46734a-c099-4a35-859e-9ef6ef9e3e7f',
+          name: 'Everson Eleuterio',
+          username: 'eversoneleuterio'
+        },
+        {
+          id: 'a6cb5807-d1ec-4f3d-9408-e17a36497a33',
+          name: 'Everson Fariaa',
+          username: 'everson.fariaa'
+        },
+        {
+          id: 'cf75b3d5-c9c3-4e84-9a01-f529523133bf',
+          name: 'Everson Alves',
+          username: 'eversonalves'
+        }
+      ]
+
+      elasticsearch.bulk = jest.fn()
+
+      files.readCsv = jest.fn().mockReturnValue(data)
+      files.readText = jest.fn().mockReturnValueOnce(['a6cb5807-d1ec-4f3d-9408-e17a36497a33'])
+        .mockReturnValueOnce(['cf75b3d5-c9c3-4e84-9a01-f529523133bf'])
+
+      await bulkData()
+
+      expect(elasticsearch.bulk).toHaveBeenCalledTimes(3)
+      expect(elasticsearch.bulk.mock.calls[0]).toEqual([{ data: [data[0]], index: 'user'}])
+      expect(elasticsearch.bulk.mock.calls[1]).toEqual([{ data: [data[1]], index: 'user_priority'}])
+      expect(elasticsearch.bulk.mock.calls[2]).toEqual([{ data: [data[2]], index: 'user_low_priority'}])
     })
   })
 })
